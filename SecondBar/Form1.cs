@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -18,6 +19,9 @@ namespace SecondBar {
         private int monitorIndex;
 		private int origHeight;
 
+        private LinkedList<string> history = new LinkedList<string>();
+        private LinkedListNode<string> historyNode = null;
+
         private HMonitor monitor {
             get {
                 return monitors[monitorIndex];
@@ -29,12 +33,12 @@ namespace SecondBar {
 			Shown += Form1_Shown;
 			FormClosed += Form1_FormClosed;
 			origHeight = this.Height;
-		}
 
-		void Form1_FormClosed(object sender, FormClosedEventArgs e) {
-			if (monitor.WorkArea == newWorkArea) {
-				monitor.SetWorkArea(oldWorkArea);
-			}
+            try {
+                foreach (string s in File.ReadAllLines("history.txt").Take(10)) {
+                    history.AddLast(s);
+                }
+            } catch (Exception) { }
 		}
 
 		void Form1_Shown(object sender, EventArgs e) {
@@ -48,10 +52,6 @@ namespace SecondBar {
 			monitor.SetWorkArea(newWorkArea);
 		}
 
-		private void btnClose_Click(object sender, EventArgs e) {
-			this.Close();
-		}
-
 		private void panel1_Click(object sender, EventArgs e) {
 			textBox1.Focus();
 		}
@@ -60,28 +60,73 @@ namespace SecondBar {
 			Process p = (Process)sender;
 		}
 
-		private void textBox1_KeyPress(object sender, KeyPressEventArgs e) {
-			if (e.KeyChar == '\r' || e.KeyChar == '\n') {
-				e.Handled = true;
-				try {
-					string text = textBox1.Text;
-					if (text.Length == 0) return;
-					if (text[0] == '\\' || text[0] == '!') {
-						text = "https://duckduckgo.com/?q=" + WebUtility.UrlEncode(text);
-					}
+        private void textBox1_KeyDown(object sender, KeyEventArgs e) {
+            lock (history) {
+                if (e.KeyCode == Keys.Enter) {
+                    e.Handled = e.SuppressKeyPress = true;
+				    try {
+					    string text = textBox1.Text;
+					    if (text.Length == 0) return;
+					    if (text[0] == '\\' || text[0] == '!') {
+						    text = "https://duckduckgo.com/?q=" + WebUtility.UrlEncode(text);
+					    }
 
-                    string[] split = SplitOnce(text);
-					Process p = Process.Start(split[0], split[1]);
-					textBox1.Text = "";
-					if (p != null) {
-						p.EnableRaisingEvents = true;
-						p.Exited += p_Exited;
-					}
-				} catch (Exception ex) {
-					MessageBox.Show(ex.Message);
-				}
-			}
-		}
+                        string[] split = SplitOnce(text);
+					    Process p = Process.Start(split[0], split[1]);
+                        if (text != history.First.Value) {
+                            if (history.Count >= 10) history.RemoveLast();
+                            history.AddFirst(text);
+                        }
+                        historyNode = null;
+					    textBox1.Text = "";
+					    if (p != null) {
+						    p.EnableRaisingEvents = true;
+						    p.Exited += p_Exited;
+					    }
+				    } catch (Exception ex) {
+					    MessageBox.Show(ex.Message);
+				    }
+                } else if (e.KeyCode == Keys.Up) {
+                    e.Handled = e.SuppressKeyPress = true;
+                    if (historyNode == null) {
+                        historyNode = history.First;
+                    } else {
+                        historyNode = historyNode.Next;
+                    }
+                    if (historyNode == null) {
+                        textBox1.Text = "";
+                    } else {
+                        textBox1.Text = historyNode.Value;
+                    }
+                } else if (e.KeyCode == Keys.Down) {
+                    e.Handled = e.SuppressKeyPress = true;
+                    if (historyNode == null) {
+                        historyNode = history.Last;
+                    } else {
+                        historyNode = historyNode.Previous;
+                    }
+                    if (historyNode == null) {
+                        textBox1.Text = "";
+                    } else {
+                        textBox1.Text = historyNode.Value;
+                    }
+                }
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e) {
+            this.Close();
+        }
+
+        void Form1_FormClosed(object sender, FormClosedEventArgs e) {
+            try {
+                File.WriteAllLines("history.txt", history.ToArray());
+            } catch (Exception) { }
+
+            if (monitor.WorkArea == newWorkArea) {
+                monitor.SetWorkArea(oldWorkArea);
+            }
+        }
 
         /// <summary>
         /// http://stackoverflow.com/questions/298830/split-string-containing-command-line-parameters-into-string-in-c-sharp
