@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkAreaUtility", "WorkAreaUtility.csproj", "{1B5B0C62-EB32-4DE5-B5A0-C91CC1ADC847}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkAreaUtility", "WorkAreaUtility\WorkAreaUtility.csproj", "{1B5B0C62-EB32-4DE5-B5A0-C91CC1ADC847}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorkAreaUtilityLib", "..\WorkAreaUtilityLib\WorkAreaUtilityLib.vcxproj", "{3DB16980-1F93-4B89-BE43-EC408699ACFD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorkAreaUtilityLib", "WorkAreaUtilityLib\WorkAreaUtilityLib.vcxproj", "{3DB16980-1F93-4B89-BE43-EC408699ACFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondBar", "..\SecondBar\SecondBar.csproj", "{7D8D6CE2-611D-4AB3-86AA-162939182C33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondBar", "SecondBar\SecondBar.csproj", "{7D8D6CE2-611D-4AB3-86AA-162939182C33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
