@@ -58,7 +58,6 @@ namespace SecondBar {
 
 		void p_Exited(object sender, EventArgs e) {
 			Process p = (Process)sender;
-			MessageBox.Show(p.ExitCode.ToString());
 		}
 
 		private void textBox1_KeyPress(object sender, KeyPressEventArgs e) {
@@ -70,7 +69,9 @@ namespace SecondBar {
 					if (text[0] == '\\' || text[0] == '!') {
 						text = "https://duckduckgo.com/?q=" + WebUtility.UrlEncode(text);
 					}
-					Process p = Process.Start(text);
+
+                    string[] split = SplitOnce(text);
+					Process p = Process.Start(split[0], split[1]);
 					textBox1.Text = "";
 					if (p != null) {
 						p.EnableRaisingEvents = true;
@@ -81,5 +82,21 @@ namespace SecondBar {
 				}
 			}
 		}
+
+        /// <summary>
+        /// http://stackoverflow.com/questions/298830/split-string-containing-command-line-parameters-into-string-in-c-sharp
+        /// </summary>
+        public static string[] SplitOnce(string str) {
+            bool inQuotes = false;
+
+            for (int c = 0; c < str.Length; c++) {
+                if (str[c] == '"') inQuotes = !inQuotes;
+                if (!inQuotes && str[c] == ' ') {
+                    return new string[] { str.Substring(0, c), str.Substring(c + 1) };
+                }
+            }
+
+            return new string[] { str, null };
+        }
 	}
 }
