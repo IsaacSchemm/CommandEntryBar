@@ -14,8 +14,15 @@ using WorkAreaUtilityLib;
 namespace SecondBar {
 	public partial class Form1 : Form {
 		private Rectangle oldWorkArea, newWorkArea;
-		private HMonitor monitor;
+        private HMonitor[] monitors;
+        private int monitorIndex;
 		private int origHeight;
+
+        private HMonitor monitor {
+            get {
+                return monitors[monitorIndex];
+            }
+        }
 
 		public Form1() {
 			InitializeComponent();
@@ -31,8 +38,7 @@ namespace SecondBar {
 		}
 
 		void Form1_Shown(object sender, EventArgs e) {
-			HMonitor[] monitors = HMonitor.GetAllScreens();
-			monitor = monitors[0];
+			monitors = HMonitor.GetAllScreens();
 			oldWorkArea = newWorkArea = monitor.WorkArea;
 			this.Height = origHeight;
 			newWorkArea.Height -= this.Height;

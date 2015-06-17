@@ -40,7 +40,7 @@ namespace WorkAreaUtilityLib {
 		r.top = p.Top;
 		r.right = p.Right;
 		r.bottom = p.Bottom;
-		if (!SystemParametersInfo(SPI_SETWORKAREA, 0, &r, SPIF_SENDCHANGE)) {
+		if (!SystemParametersInfo(SPI_SETWORKAREA, 0, &r, SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE)) {
 			throw gcnew Exception("Error code " + GetLastError().ToString());
 		}
 		GetMonitorInfo(monitor, info);
@@ -52,7 +52,7 @@ namespace WorkAreaUtilityLib {
 		r.top = info->rcMonitor.top + p.Top;
 		r.right = info->rcMonitor.right - p.Right;
 		r.bottom = info->rcMonitor.bottom - p.Bottom;
-		if (!SystemParametersInfo(SPI_SETWORKAREA, 0, &r, SPIF_SENDCHANGE)) {
+		if (!SystemParametersInfo(SPI_SETWORKAREA, 0, &r, SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE)) {
 			throw gcnew Exception("Error code " + GetLastError().ToString());
 		}
 		GetMonitorInfo(monitor, info);
