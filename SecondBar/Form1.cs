@@ -23,6 +23,7 @@ namespace SecondBar {
 
         private HMonitor monitor {
             get {
+                if (monitors == null) return null;
                 return monitors[monitorIndex];
             }
         }
@@ -30,6 +31,7 @@ namespace SecondBar {
         public Form1(int? monitorIndex) {
 			InitializeComponent();
 			Shown += Form1_Shown;
+            
 			FormClosed += Form1_FormClosed;
             textBox1.KeyDown += textBox1_KeyDown;
 
@@ -42,13 +44,25 @@ namespace SecondBar {
             this.monitorIndex = monitorIndex ?? 0;
 		}
 
+        private void pnlTop_Paint(object sender, PaintEventArgs e) {
+            e.Graphics.DrawLine(new Pen(SystemColors.ControlLightLight), 0, 1, pnlTop.Width, 1);
+        }
+
 		void Form1_Shown(object sender, EventArgs e) {
-			monitors = HMonitor.GetAllScreens();
-			oldWorkArea = newWorkArea = monitor.WorkArea;
-            this.Height = textBox1.Height + 6;
-			newWorkArea.Height -= this.Height;
-			this.Location = new Point(newWorkArea.Left, newWorkArea.Bottom);
-			this.Width = monitor.Width;
+            reapply();
+		}
+
+        private void reapply() {
+            if (monitor != null && monitor.WorkArea == newWorkArea) {
+                monitor.SetWorkArea(oldWorkArea);
+            }
+
+            monitors = HMonitor.GetAllScreens();
+            oldWorkArea = newWorkArea = monitor.WorkArea;
+            this.Height = textBox1.Height + 6 + pnlTop.Height;
+            newWorkArea.Height -= this.Height;
+            this.Location = new Point(newWorkArea.Left, newWorkArea.Bottom);
+            this.Width = monitor.Width;
 
             foreach (Control c in this.Controls) {
                 if (c is Button) {
@@ -56,8 +70,8 @@ namespace SecondBar {
                 }
             }
 
-			monitor.SetWorkArea(newWorkArea);
-		}
+            monitor.SetWorkArea(newWorkArea);
+        }
 
 		private void panel1_Click(object sender, EventArgs e) {
             textBox1.Focus();
@@ -123,6 +137,10 @@ namespace SecondBar {
 
         private void btnMenu_Click(object sender, EventArgs e) {
             contextMenuStrip1.Show(btnMenu.PointToScreen(new Point(0, 0)));
+        }
+
+        private void reapplyWorkAreaSettingsToolStripMenuItem_Click(object sender, EventArgs e) {
+            reapply();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
