@@ -10,10 +10,18 @@ namespace SecondBar {
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main() {
+		static void Main(string[] args) {
+            int? monitorIndex = null;
+            if (args.Length > 0) {
+                int tmp;
+                if (int.TryParse(args[0], out tmp)) {
+                    monitorIndex = tmp;
+                }
+            }
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new Form1());
+            Application.Run(new Form1(monitorIndex));
 		}
 	}
 }

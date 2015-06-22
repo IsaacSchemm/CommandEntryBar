@@ -17,7 +17,6 @@ namespace SecondBar {
 		private Rectangle oldWorkArea, newWorkArea;
         private HMonitor[] monitors;
         private int monitorIndex;
-		private int origHeight;
 
         private LinkedList<string> history = new LinkedList<string>();
         private LinkedListNode<string> historyNode = null;
@@ -28,32 +27,40 @@ namespace SecondBar {
             }
         }
 
-		public Form1() {
+        public Form1(int? monitorIndex) {
 			InitializeComponent();
 			Shown += Form1_Shown;
 			FormClosed += Form1_FormClosed;
-			origHeight = this.Height;
+            textBox1.KeyDown += textBox1_KeyDown;
 
             try {
                 foreach (string s in File.ReadAllLines("history.txt").Take(10)) {
                     history.AddLast(s);
                 }
             } catch (Exception) { }
+
+            this.monitorIndex = monitorIndex ?? 0;
 		}
 
 		void Form1_Shown(object sender, EventArgs e) {
 			monitors = HMonitor.GetAllScreens();
 			oldWorkArea = newWorkArea = monitor.WorkArea;
-			this.Height = origHeight;
+            this.Height = textBox1.Height + 6;
 			newWorkArea.Height -= this.Height;
 			this.Location = new Point(newWorkArea.Left, newWorkArea.Bottom);
 			this.Width = monitor.Width;
+
+            foreach (Control c in this.Controls) {
+                if (c is Button) {
+                    ((Button)c).Width = ((Button)c).Height;
+                }
+            }
 
 			monitor.SetWorkArea(newWorkArea);
 		}
 
 		private void panel1_Click(object sender, EventArgs e) {
-			textBox1.Focus();
+            textBox1.Focus();
 		}
 
 		void p_Exited(object sender, EventArgs e) {
@@ -112,6 +119,14 @@ namespace SecondBar {
                     }
                 }
             }
+        }
+
+        private void btnMenu_Click(object sender, EventArgs e) {
+            contextMenuStrip1.Show(btnMenu.PointToScreen(new Point(0, 0)));
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
+            this.Close();
         }
 
         private void btnClose_Click(object sender, EventArgs e) {
