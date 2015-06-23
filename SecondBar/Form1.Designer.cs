@@ -27,11 +27,12 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.resetWorkAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnMenu = new System.Windows.Forms.Button();
             this.pnlTop = new System.Windows.Forms.Panel();
-            this.reapplyWorkAreaSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editWorkAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -63,16 +64,24 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reapplyWorkAreaSettingsToolStripMenuItem,
+            this.editWorkAreaToolStripMenuItem,
+            this.resetWorkAreaToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.ShowImageMargin = false;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(129, 92);
+            // 
+            // resetWorkAreaToolStripMenuItem
+            // 
+            this.resetWorkAreaToolStripMenuItem.Name = "resetWorkAreaToolStripMenuItem";
+            this.resetWorkAreaToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.resetWorkAreaToolStripMenuItem.Text = "Reset work area";
+            this.resetWorkAreaToolStripMenuItem.Click += new System.EventHandler(this.resetWorkAreaToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -107,12 +116,12 @@
             this.pnlTop.TabIndex = 1;
             this.pnlTop.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlTop_Paint);
             // 
-            // reapplyWorkAreaSettingsToolStripMenuItem
+            // editWorkAreaToolStripMenuItem
             // 
-            this.reapplyWorkAreaSettingsToolStripMenuItem.Name = "reapplyWorkAreaSettingsToolStripMenuItem";
-            this.reapplyWorkAreaSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.reapplyWorkAreaSettingsToolStripMenuItem.Text = "Reapply work area settings";
-            this.reapplyWorkAreaSettingsToolStripMenuItem.Click += new System.EventHandler(this.reapplyWorkAreaSettingsToolStripMenuItem_Click);
+            this.editWorkAreaToolStripMenuItem.Name = "editWorkAreaToolStripMenuItem";
+            this.editWorkAreaToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.editWorkAreaToolStripMenuItem.Text = "Edit work area";
+            this.editWorkAreaToolStripMenuItem.Click += new System.EventHandler(this.editWorkAreaToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -144,7 +153,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.Panel pnlTop;
-        private System.Windows.Forms.ToolStripMenuItem reapplyWorkAreaSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetWorkAreaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editWorkAreaToolStripMenuItem;
 
 	}
 }

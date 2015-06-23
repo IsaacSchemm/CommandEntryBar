@@ -1,5 +1,5 @@
-﻿namespace WorkAreaUtility {
-	partial class Form1 {
+﻿namespace SecondBar {
+	partial class WorkAreaEditorForm {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>

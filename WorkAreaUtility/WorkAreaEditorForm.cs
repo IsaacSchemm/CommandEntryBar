@@ -10,10 +10,10 @@ using System.Windows.Forms;
 using WorkAreaUtilityLib;
 
 namespace WorkAreaUtility {
-	public partial class Form1 : Form {
+	public partial class WorkAreaEditorForm : Form {
 		private HMonitor currentMonitor;
 
-		public Form1() {
+		public WorkAreaEditorForm() {
 			InitializeComponent();
 
 			monitorsListBox.Items.AddRange(HMonitor.GetAllScreens());

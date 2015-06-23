@@ -105,7 +105,7 @@ namespace SecondBar {
 						    p.Exited += p_Exited;
 					    }
 				    } catch (Exception ex) {
-					    MessageBox.Show(ex.Message);
+					    MessageBox.Show(ex.Message + Environment.NewLine + ex.StackTrace);
 				    }
                 } else if (e.KeyCode == Keys.Up) {
                     e.Handled = e.SuppressKeyPress = true;
@@ -137,9 +137,14 @@ namespace SecondBar {
 
         private void btnMenu_Click(object sender, EventArgs e) {
             contextMenuStrip1.Show(btnMenu.PointToScreen(new Point(0, 0)));
+            if (btnMenu.Focused) textBox1.Focus();
         }
 
-        private void reapplyWorkAreaSettingsToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void editWorkAreaToolStripMenuItem_Click(object sender, EventArgs e) {
+            new WorkAreaEditorForm().Show();
+        }
+
+        private void resetWorkAreaToolStripMenuItem_Click(object sender, EventArgs e) {
             reapply();
         }
 
