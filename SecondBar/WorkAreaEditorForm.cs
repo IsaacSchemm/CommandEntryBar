@@ -55,7 +55,7 @@ namespace SecondBar {
 		}
 
 		private void btnApply_Click(object sender, EventArgs e) {
-			Padding r = new Padding((int)numTop.Value, (int)numTop.Value, (int)numRight.Value, (int)numBottom.Value);
+			Padding r = new Padding((int)numLeft.Value, (int)numTop.Value, (int)numRight.Value, (int)numBottom.Value);
 			currentMonitor.SetWorkAreaPadding(r);
 			monitorsListBox_SelectedIndexChanged(monitorsListBox, null);
 		}
